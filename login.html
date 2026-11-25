@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+    <h2>password: admin123</h2>
+    <h2>username: admin</h2>
+    <input type="text" id="user" placeholder="username"><br>
+    <input type="password" id="pass" placeholder="password"><br>
+    <button onclick="cek()">login</button><br>
+    <button onclik="">registrasi</button>
+
+
+    <p id="hasil"></p>
+
+    <script>
+
+
+
+        const pasword_benar = "admin123";
+
+        function cek() {
+            const pass = document.getElementById("pass").value;
+            if (pass === pasword_benar) {
+                document.getElementById("hasil").innerHTML = "login berhasil";
+            } else {
+                document.getElementById("hasil").innerHTML = "password salah";
+            }
+            document.getElementById("pass").value = "";
+        }
+
+        // biar bisa tekan enter
+        document.getElementById("pass").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                cek();
+            }
+        });
+    </script>
+</body>
+</html>

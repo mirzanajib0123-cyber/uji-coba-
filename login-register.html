@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login & Registrasi</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f1f0f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: #e8f0fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem;
+    }
+
+    .logo-icon i { font-size: 26px; color: #2563eb; }
+
+    .logo-title { font-size: 20px; font-weight: 600; color: #111; }
+    .logo-sub   { font-size: 13px; color: #6b7280; margin-top: 4px; }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 1.5rem;
+      gap: 4px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 9px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      background: transparent;
+      border-radius: 7px;
+      cursor: pointer;
+      color: #6b7280;
+      transition: all 0.18s;
+    }
+
+    .tab.active { background: #2563eb; color: #fff; }
+
+    /* PANEL */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* FIELD */
+    .field { margin-bottom: 1rem; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    .inp-wrap { position: relative; }
+
+    .inp-wrap > i {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #9ca3af;
+      pointer-events: none;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      height: 42px;
+      padding: 0 38px 0 36px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #fafafa;
+      color: #111;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+      background: #fff;
+    }
+
+    .show-pw {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ca3af;
+      font-size: 17px;
+      padding: 2px;
+      line-height: 1;
+    }
+
+    .show-pw:hover { color: #374151; }
+
+    /* BUTTON */
+    .btn-main {
+      width: 100%;
+      height: 42px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.25rem;
+      font-family: inherit;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .btn-main:hover  { opacity: 0.9; }
+    .btn-main:active { transform: scale(0.99); }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 1rem 0;
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e5e7eb;
+    }
+
+    .msg {
+      font-size: 13px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    .msg a { color: #2563eb; text-decoration: none; font-weight: 500; }
+    .msg a:hover { text-decoration: underline; }
+
+    /* ALERT */
+    .alert {
+      font-size: 13px;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .alert.err {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .alert.ok {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Logo -->
+  <div class="logo">
+    <div class="logo-icon">
+      <i class="ti ti-user-circle"></i>
+    </div>
+    <div class="logo-title">Selamat datang</div>
+    <div class="logo-sub">Masuk atau buat akun baru</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('login')">Masuk</button>
+    <button class="tab"        onclick="switchTab('register')">Daftar</button>
+  </div>
+
+  <!-- ===== PANEL LOGIN ===== -->
+  <div class="panel active" id="panel-login">
+    <div class="alert err" id="err-login"></div>
+    <div class="alert ok"  id="ok-login"></div>
+
+    <div class="field">
+      <label for="l-user">Username</label>
+      <div class="inp-wrap">
+        <i class="ti ti-user"></i>
+        <input type="text" id="l-user" placeholder="Masukkan username" autocomplete="username" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="l-pass">Password</label>
+      <div class="inp-wrap">
+        <i class="ti ti-lock"></i>
+        <input type="password" id="l-pass" placeholder="Masukkan password" autocomplete="current-password" />
+        <button class="show-pw" type="button" onclick="togglePw('l-pass', this)" aria-label="Tampilkan password">
+          <i class="ti ti-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-main" onclick="doLogin()">Masuk</button>
+
+    <div class="divider">atau</div>
+
+    <div class="msg">
+      Belum punya akun?
+      <a href="#" onclick="switchTab('register'); return false;">Daftar sekarang</a>
+    </div>
+  </div>
+
+  <!-- ===== PANEL REGISTER ===== -->
+  <div class="panel" id="panel-register">
+    <div class="alert err" id="err-reg"></div>
+    <div class="alert ok"  id="ok-reg"></div>
+
+    <div class="field">
+      <label for="r-user">Username</label>
+      <div class="inp-wrap">
+        <i class="ti ti-user"></i>
+        <input type="text" id="r-user" placeholder="Buat username" autocomplete="username" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="r-pass">Password</label>
+      <div class="inp-wrap">
+        <i class="ti ti-lock"></i>
+        <input type="password" id="r-pass" placeholder="Buat password" autocomplete="new-password" />
+        <button class="show-pw" type="button" onclick="togglePw('r-pass', this)" aria-label="Tampilkan password">
+          <i class="ti ti-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="r-pass2">Konfirmasi password</label>
+      <div class="inp-wrap">
+        <i class="ti ti-lock-check"></i>
+        <input type="password" id="r-pass2" placeholder="Ulangi password" autocomplete="new-password" />
+        <button class="show-pw" type="button" onclick="togglePw('r-pass2', this)" aria-label="Tampilkan password">
+          <i class="ti ti-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-main" onclick="doRegister()">Buat akun</button>
+
+    <div class="divider">atau</div>
+
+    <div class="msg">
+      Sudah punya akun?
+      <a href="#" onclick="switchTab('login'); return false;">Masuk di sini</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(t) {
+    const isLogin = t === 'login';
+    document.querySelectorAll('.tab').forEach((b, i) =>
+      b.classList.toggle('active', i === (isLogin ? 0 : 1))
+    );
+    document.querySelectorAll('.panel').forEach((p, i) =>
+      p.classList.toggle('active', i === (isLogin ? 0 : 1))
+    );
+  }
+
+  function togglePw(id, btn) {
+    const inp  = document.getElementById(id);
+    const show = inp.type === 'password';
+    inp.type   = show ? 'text' : 'password';
+    btn.querySelector('i').className = show ? 'ti ti-eye-off' : 'ti ti-eye';
+  }
+
+  function showMsg(id, msg, type) {
+    const el = document.getElementById(id);
+    el.textContent  = msg;
+    el.className    = 'alert ' + type;
+    el.style.display = 'block';
+    if (type === 'ok') setTimeout(() => el.style.display = 'none', 3000);
+  }
+
+  function hideMsg(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  function doLogin() {
+    const u = document.getElementById('l-user').value.trim();
+    const p = document.getElementById('l-pass').value;
+    hideMsg('err-login');
+    if (!u) { showMsg('err-login', 'Username tidak boleh kosong.', 'err'); return; }
+    if (!p) { showMsg('err-login', 'Password tidak boleh kosong.', 'err'); return; }
+
+    // ✅ Logika autentikasi bisa disambungkan ke backend di sini
+    showMsg('ok-login', 'Berhasil masuk! Selamat datang, ' + u + ' 👋', 'ok');
+  }
+
+  function doRegister() {
+    const u  = document.getElementById('r-user').value.trim();
+    const p  = document.getElementById('r-pass').value;
+    const p2 = document.getElementById('r-pass2').value;
+    hideMsg('err-reg');
+    if (!u)        { showMsg('err-reg', 'Username tidak boleh kosong.', 'err'); return; }
+    if (u.length < 3) { showMsg('err-reg', 'Username minimal 3 karakter.', 'err'); return; }
+    if (!p)        { showMsg('err-reg', 'Password tidak boleh kosong.', 'err'); return; }
+    if (p.length < 6) { showMsg('err-reg', 'Password minimal 6 karakter.', 'err'); return; }
+    if (p !== p2)  { showMsg('err-reg', 'Password tidak cocok.', 'err'); return; }
+
+    // ✅ Logika registrasi bisa disambungkan ke backend di sini
+    showMsg('ok-reg', 'Akun berhasil dibuat! Silakan masuk.', 'ok');
+    setTimeout(() => switchTab('login'), 1500);
+  }
+</script>
+
+</body>
+</html>
